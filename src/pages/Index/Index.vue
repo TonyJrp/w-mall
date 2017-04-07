@@ -15,7 +15,7 @@
     </header>
     <div class="page-content">
       <m-swipe swipeid="swipe01" :autoplay="1000" paginationDirection="center">
-         <div class="swiper-slide " slot="swiper-con" v-for="(list,index) in swipeData" :key="index">
+          <div class="swiper-slide " slot="swiper-con" v-for="(list,index) in swipeData" :key="index">
              <img :src="list.picUrl" alt="">
          </div>
       </m-swipe>
@@ -59,36 +59,35 @@
           let carousel = response.data.data.carousel;
           this.swipeData = carousel;
           Vue.nextTick( function() {
-          var That = this;
-          new Swiper('.swipe01', {
-           //循环
-         loop: true,
-        //分页器
-        pagination: '.swiper-pagination',
-        //分页类型
-        paginationType: "bullets", //fraction,progress,bullets
-        //自动播放
-        autoplay: 5000,
-        //方向
-        direction: "horizontal",
-        //特效
-        effect: "slide", //slide,fade,coverflow,cube
-        //用户操作swiper之后，是否禁止autoplay
-        autoplayDisableOnInteraction : false
+            var That = this;
+            new Swiper('.swipe01', {
+              //循环
+              loop: true,
+              //分页器
+              pagination: '.swiper-pagination',
+              //分页类型
+              paginationType: "bullets", //fraction,progress,bullets
+              //自动播放
+              autoplay: 5000,
+              //方向
+              direction: "horizontal",
+              //特效
+              effect: "slide", //slide,fade,coverflow,cube
+              //用户操作swiper之后，是否禁止autoplay
+              autoplayDisableOnInteraction : false
+            });
+          });
+          this.$store.commit(types.HIDE_LOADING);
         });
-      });
-        this.$store.commit(types.HIDE_LOADING);
-      });
       },
       loadTop() {
-         this.$store.commit(types.SHOW_LOADING);
-         let rqurl = 'https://gank.io/api/data/福利/10/4';
-         this.axios.get(rqurl).then((response) => {
-          this.datas = this.datas.concat(response.data.results);
-          this.busy = false;
-          this.$nextTick(() => {
-              this.$store.commit(types.HIDE_LOADING);
-          });
+        this.$store.commit(types.SHOW_LOADING);
+        this.axios.get('https://gank.io/api/data/福利/10/'+this.page).then((response) => {
+        this.datas = this.datas.concat(response.data.results);
+        this.busy = false;
+        this.$nextTick(() => {
+        this.$store.commit(types.HIDE_LOADING);
+      });
         });
       },
       loadMore() {
